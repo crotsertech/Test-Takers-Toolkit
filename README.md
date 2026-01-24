@@ -16,11 +16,16 @@ A quick and dirty Android application designed to streamline the process of wate
 
 
 ## Light Mode
-<img width="1080" height="2400" alt="Screenshot_20260123_213419" src="https://github.com/user-attachments/assets/b61a6b17-af26-444e-ad4e-7bda185bb015" />
+
+<img width="540" height="1200" alt="Screenshot_20260123_213419" src="https://github.com/user-attachments/assets/b61a6b17-af26-444e-ad4e-7bda185bb015" />
+
 ## Dark Mode
-<img width="1080" height="2400" alt="Screenshot_20260123_213548" src="https://github.com/user-attachments/assets/3689de9f-df91-4f13-afab-96c6e4dbb8f2" />
+
+<img width="540" height="1200" alt="Screenshot_20260123_213548" src="https://github.com/user-attachments/assets/3689de9f-df91-4f13-afab-96c6e4dbb8f2" />
+
 ## PDF Reports
-<img width="1080" height="2400" alt="Screenshot_20260123_213639" src="https://github.com/user-attachments/assets/f7fc710f-4b5c-4615-a872-ea5a84ba5194" />
+
+<img width="540" height="1200" alt="Screenshot_20260123_213639" src="https://github.com/user-attachments/assets/f7fc710f-4b5c-4615-a872-ea5a84ba5194" />
 
 
 # Usage
