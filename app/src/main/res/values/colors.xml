@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Light Aquatic Theme Colors -->
+    <color name="aqua_primary">#006978</color> <!-- Deep Teal -->
+    <color name="aqua_onPrimary">#FFFFFF</color>
+    <color name="aqua_primaryContainer">#9EEFFD</color> <!-- Light Cyan -->
+    <color name="aqua_onPrimaryContainer">#001F25</color>
+    <color name="aqua_secondary">#4A6267</color> <!-- Slate Blue -->
+    <color name="aqua_onSecondary">#FFFFFF</color>
+    <color name="aqua_secondaryContainer">#CDE7EC</color>
+    <color name="aqua_onSecondaryContainer">#051F23</color>
+    <color name="aqua_tertiary">#525E7D</color> <!-- Muted Indigo -->
+    <color name="aqua_onTertiary">#FFFFFF</color>
+    <color name="aqua_tertiaryContainer">#DAE2FF</color>
+    <color name="aqua_onTertiaryContainer">#0E1A37</color>
+    <color name="aqua_background">#FBFCFD</color> <!-- Almost White -->
+    <color name="aqua_onBackground">#191C1D</color>
+    <color name="aqua_surface">#FBFCFD</color>
+    <color name="aqua_onSurface">#191C1D</color>
+    <color name="aqua_surfaceVariant">#DBE4E6</color> <!-- Light Grayish-Cyan -->
+    <color name="aqua_onSurfaceVariant">#3F484A</color>
+
+    <!-- Solarized Dark Theme Colors -->
+    <color name="solar_primary">#268BD2</color> <!-- Blue -->
+    <color name="solar_onPrimary">#FFFFFF</color>
+    <color name="solar_primaryContainer">#074F52</color>
+    <color name="solar_onPrimaryContainer">#9EEFFD</color>
+    <color name="solar_secondary">#859900</color> <!-- Green -->
+    <color name="solar_onSecondary">#FFFFFF</color>
+    <color name="solar_secondaryContainer">#2F3C00</color>
+    <color name="solar_onSecondaryContainer">#CDE7EC</color>
+    <color name="solar_tertiary">#CB4B16</color> <!-- Orange -->
+    <color name="solar_onTertiary">#FFFFFF</color>
+    <color name="solar_tertiaryContainer">#7F2400</color>
+    <color name="solar_onTertiaryContainer">#DAE2FF</color>
+    <color name="solar_background">#002B36</color> <!-- Base Background -->
+    <color name="solar_onBackground">#839496</color> <!-- Main Text -->
+    <color name="solar_surface">#073642</color> <!-- Lighter Background / Cards -->
+    <color name="solar_onSurface">#93A1A1</color>
+    <color name="solar_surfaceVariant">#3a5055</color> <!-- Subtle variant -->
+    <color name="solar_onSurfaceVariant">#839496</color>
+</resources>

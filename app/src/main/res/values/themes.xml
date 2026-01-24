@@ -1,0 +1,30 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme (Light Aquatic Theme) -->
+    <style name="Theme.TestTakersToolkit" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/aqua_primary</item>
+        <item name="colorOnPrimary">@color/aqua_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/aqua_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/aqua_onPrimaryContainer</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/aqua_secondary</item>
+        <item name="colorOnSecondary">@color/aqua_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/aqua_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/aqua_onSecondaryContainer</item>
+        <!-- Tertiary brand color. -->
+        <item name="colorTertiary">@color/aqua_tertiary</item>
+        <item name="colorOnTertiary">@color/aqua_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/aqua_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/aqua_onTertiaryContainer</item>
+        <!-- Background and surface colors. -->
+        <item name="android:colorBackground">@color/aqua_background</item>
+        <item name="colorOnBackground">@color/aqua_onBackground</item>
+        <item name="colorSurface">@color/aqua_surface</item>
+        <item name="colorOnSurface">@color/aqua_onSurface</item>
+        <item name="colorSurfaceVariant">@color/aqua_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/aqua_onSurfaceVariant</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/aqua_primaryContainer</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

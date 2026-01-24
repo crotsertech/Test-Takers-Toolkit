@@ -1,0 +1,30 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme (Solarized Dark Theme) -->
+    <style name="Theme.TestTakersToolkit" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/solar_primary</item>
+        <item name="colorOnPrimary">@color/solar_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/solar_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/solar_onPrimaryContainer</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/solar_secondary</item>
+        <item name="colorOnSecondary">@color/solar_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/solar_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/solar_onSecondaryContainer</item>
+        <!-- Tertiary brand color. -->
+        <item name="colorTertiary">@color/solar_tertiary</item>
+        <item name="colorOnTertiary">@color/solar_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/solar_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/solar_onTertiaryContainer</item>
+        <!-- Background and surface colors. -->
+        <item name="android:colorBackground">@color/solar_background</item>
+        <item name="colorOnBackground">@color/solar_onBackground</item>
+        <item name="colorSurface">@color/solar_surface</item>
+        <item name="colorOnSurface">@color/solar_onSurface</item>
+        <item name="colorSurfaceVariant">@color/solar_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/solar_onSurfaceVariant</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/solar_surface</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>
