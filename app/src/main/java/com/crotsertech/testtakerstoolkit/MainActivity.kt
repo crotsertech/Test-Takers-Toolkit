@@ -23,6 +23,9 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import java.text.SimpleDateFormat
 import java.util.*
+import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -149,6 +152,39 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Toast.makeText(this, "Unable to open browser", Toast.LENGTH_SHORT).show()
             e.printStackTrace()
+        }
+    }
+
+    private fun openUrlInBrowser(url: String) {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(this, "Unable to open browser", Toast.LENGTH_SHORT).show()
+            e.printStackTrace()
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // The URL for your GitHub issues page
+        val issuesUrl = "https://github.com/crotsertech/Test-Takers-Toolkit/issues"
+
+        return when (item.itemId) {
+            R.id.action_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+                true
+            }
+            R.id.action_bug_report -> {
+                // To make it even better, you can link directly to the new issue page for bugs
+                openUrlInBrowser("$issuesUrl/new?template=bug_report.md")
+                true
+            }
+            R.id.action_feature_request -> {
+                // And a direct link for feature requests
+                openUrlInBrowser("$issuesUrl/new?template=feature_request.md")
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

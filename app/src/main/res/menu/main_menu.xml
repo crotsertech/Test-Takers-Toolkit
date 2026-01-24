@@ -6,4 +6,16 @@
         android:title="Settings"
         android:icon="@android:drawable/ic_menu_preferences"
         app:showAsAction="ifRoom" />
+
+         <group android:id="@+id/group_feedback">
+        <item
+            android:id="@+id/action_bug_report"
+            android:title="File a Bug Report"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/action_feature_request"
+            android:title="Request a Feature"
+            app:showAsAction="never" />
+    </group>
 </menu>
