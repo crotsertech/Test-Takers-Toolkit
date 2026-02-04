@@ -14,6 +14,7 @@ data class CustomerInfo(
     val name: String = "",
     val streetAddress: String = "",
     val city: String = "",
+    val state: String,
     val zip: String = "",
     val phone: String = "",
     val email: String = "",
@@ -40,8 +41,9 @@ data class TestResults(
     val notes: String = ""
 )
 
-enum class WaterSource {
-    MUNICIPAL,
-    PRIVATE_WELL,
-    COMMUNITY_WELL
+enum class WaterSource(val displayName: String) {
+    MUNICIPAL("Municipal Water System"),
+    PRIVATE_WELL("Private Well"),
+    COMMUNITY_WELL("Community Well"),
+    OTHER("Other")
 }

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
         android:id="@+id/action_settings"
-        android:title="Settings"
-        android:icon="@android:drawable/ic_menu_preferences"
-        app:showAsAction="ifRoom" />
+        android:title="General Settings"
+        app:showAsAction="never" />
 
-         <group android:id="@+id/group_feedback">
+    <group android:id="@+id/group_feedback">
         <item
             android:id="@+id/action_bug_report"
             android:title="File a Bug Report"
@@ -18,4 +18,10 @@
             android:title="Request a Feature"
             app:showAsAction="never" />
     </group>
+
+    <item
+        android:id="@+id/action_help"
+        android:title="Help"
+        app:showAsAction="never" />
+
 </menu>

@@ -9,17 +9,18 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.activity.enableEdgeToEdge
-//import androidx.compose.ui.layout.layout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.radiobutton.MaterialRadioButton
 import com.google.android.material.textfield.TextInputEditText
 import java.text.SimpleDateFormat
 import java.util.*
@@ -29,17 +30,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var preferencesManager: PreferencesManager
     private lateinit var pdfGenerator: PdfGenerator
 
-    // Customer info fields
     private lateinit var etName: TextInputEditText
     private lateinit var etStreetAddress: TextInputEditText
     private lateinit var etCity: TextInputEditText
+    private lateinit var etState: TextInputEditText
     private lateinit var etZip: TextInputEditText
     private lateinit var etPhone: TextInputEditText
     private lateinit var etEmail: TextInputEditText
     private lateinit var rgWaterSource: RadioGroup
     private lateinit var tvEpaNumber: TextView
 
-    // Test result fields
     private lateinit var etDateTested: TextInputEditText
     private lateinit var etSampleLocation: TextInputEditText
     private lateinit var etTesterInitials: TextInputEditText
@@ -84,17 +84,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeViews() {
-        // Customer info
         etName = findViewById(R.id.etName)
         etStreetAddress = findViewById(R.id.etStreetAddress)
         etCity = findViewById(R.id.etCity)
+        etState = findViewById(R.id.etState)
         etZip = findViewById(R.id.etZip)
         etPhone = findViewById(R.id.etPhone)
         etEmail = findViewById(R.id.etEmail)
         rgWaterSource = findViewById(R.id.rgWaterSource)
         tvEpaNumber = findViewById(R.id.tvEpaNumber)
 
-        // Test results
         etDateTested = findViewById(R.id.etDateTested)
         etSampleLocation = findViewById(R.id.etSampleLocation)
         etTesterInitials = findViewById(R.id.etTesterInitials)
@@ -114,29 +113,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        // ZIP code listener to update EPA number
         etZip.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 updateEpaNumber()
             }
         }
-
-        // Water source listener
         rgWaterSource.setOnCheckedChangeListener { _, _ ->
             updateEpaNumber()
         }
-
-        // Generate PDF button
         findViewById<MaterialButton>(R.id.btnGeneratePdf).setOnClickListener {
             checkPermissionAndGeneratePdf()
         }
-
-        // Clear button
         findViewById<MaterialButton>(R.id.btnClear).setOnClickListener {
             showClearConfirmation()
         }
-
-        // Attribution link
         findViewById<TextView>(R.id.tvAttribution).setOnClickListener {
             openGitHubLink()
         }
@@ -162,23 +152,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // The URL for your GitHub issues page
-        val issuesUrl = "https://github.com/crotsertech/Test-Takers-Toolkit/issues"
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val issuesUrl = "https://github.com/crotsertech/TestTakersToolkit/issues"
         return when (item.itemId) {
             R.id.action_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
                 true
             }
             R.id.action_bug_report -> {
-                // To make it even better, you can link directly to the new issue page for bugs
                 openUrlInBrowser("$issuesUrl/new?template=bug_report.md")
                 true
             }
             R.id.action_feature_request -> {
-                // And a direct link for feature requests
                 openUrlInBrowser("$issuesUrl/new?template=feature_request.md")
+                true
+            }
+            R.id.action_help -> {
+                startActivity(Intent(this, HelpActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -204,23 +199,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateEpaNumber() {
         val zipCode = etZip.text.toString()
-        val isMunicipal = findViewById<com.google.android.material.radiobutton.MaterialRadioButton>(R.id.rbMunicipal).isChecked
+        val isMunicipal = findViewById<MaterialRadioButton>(R.id.rbMunicipal).isChecked
+        val isEpaLookupEnabled = preferencesManager.isEpaLookupEnabled()
 
-        if (isMunicipal && zipCode.length == 5) {
-            val epaNumber = preferencesManager.getEpaSystemNumber(zipCode)
+        if (isMunicipal && zipCode.length == 5 && isEpaLookupEnabled) {
+            val epaNumber = preferencesManager.getEpaSystemNumber(zipCode, enabled = true)
             tvEpaNumber.text = "IL EPA System Number: $epaNumber"
-            tvEpaNumber.visibility = TextView.VISIBLE
+            tvEpaNumber.visibility = View.VISIBLE
         } else {
-            tvEpaNumber.visibility = TextView.GONE
+            tvEpaNumber.visibility = View.GONE
         }
     }
 
     private fun checkPermissionAndGeneratePdf() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            // Android 10+ doesn't need storage permission for Downloads
             generatePdf()
         } else {
-            // Android 9 and below need storage permission
             when {
                 ContextCompat.checkSelfPermission(
                     this,
@@ -236,9 +230,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun generatePdf() {
-        // Validate required fields
         if (etName.text.toString().isEmpty()) {
             Toast.makeText(this, "Please enter customer name", Toast.LENGTH_SHORT).show()
+            etName.error = "Customer name is required"
             return
         }
 
@@ -256,25 +250,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         try {
-            // Get water source
             val waterSource = when (rgWaterSource.checkedRadioButtonId) {
                 R.id.rbPrivateWell -> WaterSource.PRIVATE_WELL
                 R.id.rbCommunityWell -> WaterSource.COMMUNITY_WELL
                 else -> WaterSource.MUNICIPAL
             }
 
-            // Get EPA number if municipal
+            val isEpaLookupEnabled = preferencesManager.isEpaLookupEnabled()
             val epaNumber = if (waterSource == WaterSource.MUNICIPAL) {
-                preferencesManager.getEpaSystemNumber(etZip.text.toString())
+                preferencesManager.getEpaSystemNumber(etZip.text.toString(), enabled = isEpaLookupEnabled)
             } else {
-                ""
+                "N/A"
             }
 
-            // Collect customer info
             val customerInfo = CustomerInfo(
                 name = etName.text.toString(),
                 streetAddress = etStreetAddress.text.toString(),
                 city = etCity.text.toString(),
+                state = etState.text.toString(),
                 zip = etZip.text.toString(),
                 phone = etPhone.text.toString(),
                 email = etEmail.text.toString(),
@@ -282,7 +275,6 @@ class MainActivity : AppCompatActivity() {
                 epaSystemNumber = epaNumber
             )
 
-            // Collect test results
             val testResults = TestResults(
                 dateTested = etDateTested.text.toString(),
                 sampleLocation = etSampleLocation.text.toString(),
@@ -302,14 +294,8 @@ class MainActivity : AppCompatActivity() {
                 notes = etNotes.text.toString()
             )
 
-            // Generate PDF
-            val pdfFile = pdfGenerator.generatePdf(companyInfo, customerInfo, testResults)
-
-            Toast.makeText(
-                this,
-                "PDF saved to Downloads: ${pdfFile.name}",
-                Toast.LENGTH_LONG
-            ).show()
+            pdfGenerator.generatePdf(companyInfo, customerInfo, testResults)
+            Toast.makeText(this, "PDF saved to Downloads folder", Toast.LENGTH_LONG).show()
 
         } catch (e: Exception) {
             Toast.makeText(this, "Error generating PDF: ${e.message}", Toast.LENGTH_LONG).show()
@@ -319,54 +305,38 @@ class MainActivity : AppCompatActivity() {
 
     private fun showClearConfirmation() {
         AlertDialog.Builder(this)
-            .setTitle("Clear Form")
+            .setTitle("Clear Fields")
             .setMessage("Are you sure you want to clear all fields?")
-            .setPositiveButton("Yes") { _, _ ->
-                clearAllFields()
-            }
+            .setPositiveButton("Clear") { _, _ -> clearAllFields() }
             .setNegativeButton("Cancel", null)
             .show()
     }
 
     private fun clearAllFields() {
-        // Clear customer info
-        etName.setText("")
-        etStreetAddress.setText("")
-        etCity.setText("")
-        etZip.setText("")
-        etPhone.setText("")
-        etEmail.setText("")
-
-        // Clear test results
-        etDateTested.setText("")
-        etSampleLocation.setText("")
-        etTesterInitials.setText("")
-        etHardness.setText("")
-        etTds.setText("")
-        etPh.setText("")
-        etIron.setText("")
-        etAmmonia.setText("")
-        etNitrates.setText("")
-        etManganese.setText("")
-        etTannin.setText("")
-        etArsenic.setText("")
-        etChromium6.setText("")
-        etGlyphosate.setText("")
-        etLead.setText("")
-        etNotes.setText("")
-
-        // Reset water source to Municipal
-        findViewById<com.google.android.material.radiobutton.MaterialRadioButton>(R.id.rbMunicipal).isChecked = true
-        tvEpaNumber.visibility = TextView.GONE
-
-        Toast.makeText(this, "Form cleared", Toast.LENGTH_SHORT).show()
+        etName.text?.clear()
+        etStreetAddress.text?.clear()
+        etCity.text?.clear()
+        etState.text?.clear()
+        etZip.text?.clear()
+        etPhone.text?.clear()
+        etEmail.text?.clear()
+        rgWaterSource.check(R.id.rbMunicipal)
+        etDateTested.text?.clear()
+        etSampleLocation.text?.clear()
+        etTesterInitials.text?.clear()
+        etHardness.text?.clear()
+        etTds.text?.clear()
+        etPh.text?.clear()
+        etIron.text?.clear()
+        etAmmonia.text?.clear()
+        etNitrates.text?.clear()
+        etManganese.text?.clear()
+        etTannin.text?.clear()
+        etArsenic.text?.clear()
+        etChromium6.text?.clear()
+        etGlyphosate.text?.clear()
+        etLead.text?.clear()
+        etNotes.text?.clear()
+        Toast.makeText(this, "All fields cleared", Toast.LENGTH_SHORT).show()
     }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return true
-    }
-
-        }
-
-
+}
