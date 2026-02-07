@@ -252,14 +252,14 @@
                             <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="\n\nIf you found this application helpful, please consider buying the developer a coffee to say thanks! "
+                            android:text="\n\nIf you found this application helpful, please consider tipping the developer to say thanks! "
                             android:layout_marginBottom="8dp" />
 
                         <TextView
                             android:id="@+id/tvCoffeeLink"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Click here to buy a coffee!"
+                            android:text="Click here to tip!"
                             android:textColor="?attr/colorPrimary"
                             android:textStyle="bold"
                             android:clickable="true"
