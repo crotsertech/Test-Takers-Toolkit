@@ -135,7 +135,7 @@
                 android:id="@+id/switchEpaLookup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enable EPA Lookup (Local Database)"
+                android:text="Enable IL EPA Lookup (Local Database)"
                 android:textAppearance="?attr/textAppearanceBodyLarge"
                 android:checked="false" />
 
