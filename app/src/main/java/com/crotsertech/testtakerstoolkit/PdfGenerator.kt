@@ -1,7 +1,9 @@
 package com.crotsertech.testtakerstoolkit
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.os.Environment
+import com.itextpdf.io.image.ImageDataFactory
 import com.itextpdf.kernel.colors.DeviceGray
 import com.itextpdf.kernel.pdf.PdfDocument
 import com.itextpdf.kernel.pdf.PdfWriter
@@ -9,10 +11,12 @@ import com.itextpdf.layout.Document
 import com.itextpdf.layout.borders.SolidBorder
 import com.itextpdf.layout.element.AreaBreak
 import com.itextpdf.layout.element.Cell
+import com.itextpdf.layout.element.Image
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.properties.TextAlignment
 import com.itextpdf.layout.properties.UnitValue
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -31,7 +35,9 @@ class PdfGenerator(private val context: Context) {
     fun generatePdf(
         companyInfo: CompanyInfo,
         customerInfo: CustomerInfo,
-        testResults: TestResults
+        testResults: TestResults,
+        testerInitials: String,
+        testerSignature: Bitmap?
     ) {
         val pdfName = "WaterTest_${customerInfo.name.replace(" ", "")}_${
             SimpleDateFormat("yyyyMMdd", Locale.US).format(Date())
@@ -46,7 +52,7 @@ class PdfGenerator(private val context: Context) {
         val pdfDocument = PdfDocument(writer)
         val document = Document(pdfDocument)
 
-                fun buildAddressLine(city: String, state: String, zip: String): String {
+        fun buildAddressLine(city: String, state: String, zip: String): String {
             val cityState = listOf(city, state).filter { it.isNotBlank() }.joinToString(", ")
             return listOf(cityState, zip).filter { it.isNotBlank() }.joinToString(" ")
         }
@@ -96,9 +102,21 @@ class PdfGenerator(private val context: Context) {
         document.add(Paragraph("\nTest Results").setBold())
         if (testResults.dateTested.isNotBlank()) document.add(Paragraph("Date Tested: ${testResults.dateTested}"))
         if (testResults.sampleLocation.isNotBlank()) document.add(Paragraph("Sample Location: ${testResults.sampleLocation}"))
-        if (testResults.testerInitials.isNotBlank()) document.add(Paragraph("Tester Initials: ${testResults.testerInitials}"))
 
-        document.add(Paragraph("Bolded results may indicate a potential aesthetic or health concern.").setItalic().setFontSize(10f))
+        if (testerSignature != null) {
+            val stream = ByteArrayOutputStream()
+            testerSignature.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            val byteArray = stream.toByteArray()
+            val signatureImage = Image(ImageDataFactory.create(byteArray))
+            signatureImage.scaleToFit(120f, 50f)
+            document.add(Paragraph("Tested By:").setMarginTop(10f))
+            document.add(signatureImage)
+        } else if (testerInitials.isNotBlank()) {
+            document.add(Paragraph("Tester Initials: $testerInitials"))
+        }
+
+
+        document.add(Paragraph("Bolded paramiters indicate a result above health guidelines.").setItalic().setFontSize(10f))
         document.add(Paragraph("")) // Spacer
 
 

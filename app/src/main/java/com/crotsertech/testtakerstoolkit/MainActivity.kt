@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -22,6 +23,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.radiobutton.MaterialRadioButton
 import com.google.android.material.textfield.TextInputEditText
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -30,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var preferencesManager: PreferencesManager
     private lateinit var pdfGenerator: PdfGenerator
 
+    // --- UI Views ---
     private lateinit var etName: TextInputEditText
     private lateinit var etStreetAddress: TextInputEditText
     private lateinit var etCity: TextInputEditText
@@ -42,10 +45,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var etDateTested: TextInputEditText
     private lateinit var etSampleLocation: TextInputEditText
-    private lateinit var etTesterInitials: TextInputEditText
     private lateinit var etHardness: TextInputEditText
     private lateinit var etTds: TextInputEditText
     private lateinit var etPh: TextInputEditText
+    private lateinit var etChlorine: TextInputEditText
     private lateinit var etIron: TextInputEditText
     private lateinit var etAmmonia: TextInputEditText
     private lateinit var etNitrates: TextInputEditText
@@ -78,38 +81,55 @@ class MainActivity : AppCompatActivity() {
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        initializeViews()
-        setupListeners()
-        setupDatePicker()
+        try {
+            initializeViews()
+            setupListeners()
+            setupDatePicker()
+        } catch (e: IllegalStateException) {
+            showInitializationErrorDialog(e.message)
+        }
+    }
+
+    private fun showInitializationErrorDialog(errorMessage: String?) {
+        AlertDialog.Builder(this)
+            .setTitle("Initialization Error")
+            .setMessage("A required UI component could not be found. The layout may be corrupt. Please report this issue.\n\nError: $errorMessage")
+            .setPositiveButton("OK") { _, _ -> finish() }
+            .setCancelable(false)
+            .show()
+    }
+
+    private fun <T : View> safeFindViewById(id: Int): T {
+        return findViewById(id) ?: throw IllegalStateException("View with ID $id not found in the current layout.")
     }
 
     private fun initializeViews() {
-        etName = findViewById(R.id.etName)
-        etStreetAddress = findViewById(R.id.etStreetAddress)
-        etCity = findViewById(R.id.etCity)
-        etState = findViewById(R.id.etState)
-        etZip = findViewById(R.id.etZip)
-        etPhone = findViewById(R.id.etPhone)
-        etEmail = findViewById(R.id.etEmail)
-        rgWaterSource = findViewById(R.id.rgWaterSource)
-        tvEpaNumber = findViewById(R.id.tvEpaNumber)
+        etName = safeFindViewById(R.id.etName)
+        etStreetAddress = safeFindViewById(R.id.etStreetAddress)
+        etCity = safeFindViewById(R.id.etCity)
+        etState = safeFindViewById(R.id.etState)
+        etZip = safeFindViewById(R.id.etZip)
+        etPhone = safeFindViewById(R.id.etPhone)
+        etEmail = safeFindViewById(R.id.etEmail)
+        rgWaterSource = safeFindViewById(R.id.rgWaterSource)
+        tvEpaNumber = safeFindViewById(R.id.tvEpaNumber)
 
-        etDateTested = findViewById(R.id.etDateTested)
-        etSampleLocation = findViewById(R.id.etSampleLocation)
-        etTesterInitials = findViewById(R.id.etTesterInitials)
-        etHardness = findViewById(R.id.etHardness)
-        etTds = findViewById(R.id.etTds)
-        etPh = findViewById(R.id.etPh)
-        etIron = findViewById(R.id.etIron)
-        etAmmonia = findViewById(R.id.etAmmonia)
-        etNitrates = findViewById(R.id.etNitrates)
-        etManganese = findViewById(R.id.etManganese)
-        etTannin = findViewById(R.id.etTannin)
-        etArsenic = findViewById(R.id.etArsenic)
-        etChromium6 = findViewById(R.id.etChromium6)
-        etGlyphosate = findViewById(R.id.etGlyphosate)
-        etLead = findViewById(R.id.etLead)
-        etNotes = findViewById(R.id.etNotes)
+        etDateTested = safeFindViewById(R.id.etDateTested)
+        etSampleLocation = safeFindViewById(R.id.etSampleLocation)
+        etHardness = safeFindViewById(R.id.etHardness)
+        etTds = safeFindViewById(R.id.etTds)
+        etPh = safeFindViewById(R.id.etPh)
+        etChlorine = safeFindViewById(R.id.etChlorine)
+        etIron = safeFindViewById(R.id.etIron)
+        etAmmonia = safeFindViewById(R.id.etAmmonia)
+        etNitrates = safeFindViewById(R.id.etNitrates)
+        etManganese = safeFindViewById(R.id.etManganese)
+        etTannin = safeFindViewById(R.id.etTannin)
+        etArsenic = safeFindViewById(R.id.etArsenic)
+        etChromium6 = safeFindViewById(R.id.etChromium6)
+        etGlyphosate = safeFindViewById(R.id.etGlyphosate)
+        etLead = safeFindViewById(R.id.etLead)
+        etNotes = safeFindViewById(R.id.etNotes)
     }
 
     private fun setupListeners() {
@@ -121,13 +141,13 @@ class MainActivity : AppCompatActivity() {
         rgWaterSource.setOnCheckedChangeListener { _, _ ->
             updateEpaNumber()
         }
-        findViewById<MaterialButton>(R.id.btnGeneratePdf).setOnClickListener {
+        safeFindViewById<MaterialButton>(R.id.btnGeneratePdf).setOnClickListener {
             checkPermissionAndGeneratePdf()
         }
-        findViewById<MaterialButton>(R.id.btnClear).setOnClickListener {
+        safeFindViewById<MaterialButton>(R.id.btnClear).setOnClickListener {
             showClearConfirmation()
         }
-        findViewById<TextView>(R.id.tvAttribution).setOnClickListener {
+        safeFindViewById<TextView>(R.id.tvAttribution).setOnClickListener {
             openGitHubLink()
         }
     }
@@ -142,42 +162,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun openUrlInBrowser(url: String) {
-        try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            startActivity(intent)
-        } catch (e: Exception) {
-            Toast.makeText(this, "Unable to open browser", Toast.LENGTH_SHORT).show()
-            e.printStackTrace()
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val issuesUrl = "https://github.com/crotsertech/Test-Takers-Toolkit/issues"
         return when (item.itemId) {
             R.id.action_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
                 true
             }
-            // Temporarily Disabled
-            /*
-            R.id.action_bug_report -> {
-                openUrlInBrowser("$issuesUrl/new?template=bug_report.md")
-                true
-            }
-            R.id.action_feature_request -> {
-                openUrlInBrowser("$issuesUrl/new?template=feature_request.md")
-                true
-            }*/
             R.id.action_help -> {
                 startActivity(Intent(this, HelpActivity::class.java))
                 true
-            } //
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -201,7 +200,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateEpaNumber() {
         val zipCode = etZip.text.toString()
-        val isMunicipal = findViewById<MaterialRadioButton>(R.id.rbMunicipal).isChecked
+        val isMunicipal = safeFindViewById<MaterialRadioButton>(R.id.rbMunicipal).isChecked
         val isEpaLookupEnabled = preferencesManager.isEpaLookupEnabled()
 
         if (isMunicipal && zipCode.length == 5 && isEpaLookupEnabled) {
@@ -232,14 +231,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun generatePdf() {
-        if (etName.text.toString().isEmpty()) {
-            Toast.makeText(this, "Please enter customer name", Toast.LENGTH_SHORT).show()
+        if (etName.text.toString().isBlank()) {
             etName.error = "Customer name is required"
+            Toast.makeText(this, "Please enter customer name", Toast.LENGTH_SHORT).show()
             return
         }
 
         val companyInfo = preferencesManager.getCompanyInfo()
-        if (companyInfo.name.isEmpty()) {
+        if (companyInfo.name.isBlank()) {
             AlertDialog.Builder(this)
                 .setTitle("Company Info Required")
                 .setMessage("Please set up your company information in Settings before generating reports.")
@@ -255,6 +254,7 @@ class MainActivity : AppCompatActivity() {
             val waterSource = when (rgWaterSource.checkedRadioButtonId) {
                 R.id.rbPrivateWell -> WaterSource.PRIVATE_WELL
                 R.id.rbCommunityWell -> WaterSource.COMMUNITY_WELL
+                // R.id.rbOther is not in XML, so we default to MUNICIPAL
                 else -> WaterSource.MUNICIPAL
             }
 
@@ -266,37 +266,46 @@ class MainActivity : AppCompatActivity() {
             }
 
             val customerInfo = CustomerInfo(
-                name = etName.text.toString(),
-                streetAddress = etStreetAddress.text.toString(),
-                city = etCity.text.toString(),
-                state = etState.text.toString(),
-                zip = etZip.text.toString(),
-                phone = etPhone.text.toString(),
-                email = etEmail.text.toString(),
+                name = etName.text.toString().trim(),
+                streetAddress = etStreetAddress.text.toString().trim(),
+                city = etCity.text.toString().trim(),
+                state = etState.text.toString().trim(),
+                zip = etZip.text.toString().trim(),
+                phone = etPhone.text.toString().trim(),
+                email = etEmail.text.toString().trim(),
                 waterSource = waterSource,
                 epaSystemNumber = epaNumber
             )
 
             val testResults = TestResults(
-                dateTested = etDateTested.text.toString(),
-                sampleLocation = etSampleLocation.text.toString(),
-                testerInitials = etTesterInitials.text.toString(),
-                hardness = etHardness.text.toString(),
-                tds = etTds.text.toString(),
-                ph = etPh.text.toString(),
-                iron = etIron.text.toString(),
-                ammonia = etAmmonia.text.toString(),
-                nitrates = etNitrates.text.toString(),
-                manganese = etManganese.text.toString(),
-                tannin = etTannin.text.toString(),
-                arsenic = etArsenic.text.toString(),
-                chromium6 = etChromium6.text.toString(),
-                glyphosate = etGlyphosate.text.toString(),
-                lead = etLead.text.toString(),
-                notes = etNotes.text.toString()
+                dateTested = etDateTested.text.toString().trim(),
+                sampleLocation = etSampleLocation.text.toString().trim(),
+                hardness = etHardness.text.toString().trim(),
+                tds = etTds.text.toString().trim(),
+                ph = etPh.text.toString().trim(),
+                chlorine = etChlorine.text.toString().trim(),
+                iron = etIron.text.toString().trim(),
+                ammonia = etAmmonia.text.toString().trim(),
+                nitrates = etNitrates.text.toString().trim(),
+                manganese = etManganese.text.toString().trim(),
+                tannin = etTannin.text.toString().trim(),
+                arsenic = etArsenic.text.toString().trim(),
+                chromium6 = etChromium6.text.toString().trim(),
+                glyphosate = etGlyphosate.text.toString().trim(),
+                lead = etLead.text.toString().trim(),
+                notes = etNotes.text.toString().trim()
             )
 
-            pdfGenerator.generatePdf(companyInfo, customerInfo, testResults)
+            // Get initials and signature from settings
+            val testerInitials = preferencesManager.getTesterInitials()
+            val signatureFile = File(filesDir, "signature.png")
+            val signatureBitmap = if (signatureFile.exists()) {
+                BitmapFactory.decodeFile(signatureFile.absolutePath)
+            } else {
+                null
+            }
+
+            pdfGenerator.generatePdf(companyInfo, customerInfo, testResults, testerInitials, signatureBitmap)
             Toast.makeText(this, "PDF saved to Documents folder", Toast.LENGTH_LONG).show()
 
         } catch (e: Exception) {
@@ -325,10 +334,10 @@ class MainActivity : AppCompatActivity() {
         rgWaterSource.check(R.id.rbMunicipal)
         etDateTested.text?.clear()
         etSampleLocation.text?.clear()
-        etTesterInitials.text?.clear()
         etHardness.text?.clear()
         etTds.text?.clear()
         etPh.text?.clear()
+        etChlorine.text?.clear()
         etIron.text?.clear()
         etAmmonia.text?.clear()
         etNitrates.text?.clear()

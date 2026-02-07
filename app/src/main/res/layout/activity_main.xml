@@ -15,12 +15,10 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
-    android:id="@+id/toolbar"
-    android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
-    app:logo="@mipmap/ic_launcher"
-    app:title="@string/app_name"
-    app:menu="@menu/main_menu" />
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="@string/app_name" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -161,9 +159,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-                        <RadioButton android:id="@+id/rbMunicipal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Municipal" android:checked="true"/>
-                        <RadioButton android:id="@+id/rbPrivateWell" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Private Well" android:layout_marginStart="16dp"/>
-                        <RadioButton android:id="@+id/rbCommunityWell" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Community Well" android:layout_marginStart="16dp"/>
+                        <com.google.android.material.radiobutton.MaterialRadioButton android:id="@+id/rbMunicipal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Municipal" android:checked="true"/>
+                        <com.google.android.material.radiobutton.MaterialRadioButton android:id="@+id/rbPrivateWell" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Private Well" android:layout_marginStart="16dp"/>
+                        <com.google.android.material.radiobutton.MaterialRadioButton android:id="@+id/rbCommunityWell" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Community Well" android:layout_marginStart="16dp"/>
                     </RadioGroup>
 
                     <TextView
@@ -222,61 +220,33 @@
                             android:layout_height="wrap_content"
                             android:inputType="textCapSentences"/>
                     </com.google.android.material.textfield.TextInputLayout>
+                    
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Hardness"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etHardness" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="TDS"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etTds" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number"/></com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="pH"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etPh" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout android:id="@+id/chlorine_layout" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Chlorine"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etChlorine" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" /></com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Iron"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etIron" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Ammonia"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etAmmonia" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Nitrates"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etNitrates" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Manganese"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etManganese" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Tannin"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etTannin" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Arsenic"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etArsenic" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Chromium-6"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etChromium6" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Glyphosate"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etGlyphosate" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Lead"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etLead" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:hint="Tester Initials">
+                        android:hint="Notes / Recommendations">
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etTesterInitials"
+                            android:id="@+id/etNotes"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textCapCharacters"
-                            android:maxLength="4"/>
+                            android:inputType="textMultiLine|textCapSentences"
+                            android:minLines="3"
+                            android:gravity="top"/>
                     </com.google.android.material.textfield.TextInputLayout>
-
-                    
-                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Hardness"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etHardness" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
-                    
-                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="TDS"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etTds" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number"/></com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="pH"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etPh" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-    android:id="@+id/chlorine_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:hint="Chlorine">
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/et_chlorine"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal" />
-</com.google.android.material.textfield.TextInputLayout>
-
-
-                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Iron"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etIron" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Ammonia"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etAmmonia" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
-                    
-                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Nitrates"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etNitrates" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
-                    
-                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Manganese"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etManganese" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
-                    
-                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Tannin"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etTannin" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textCapSentences"/></com.google.android.material.textfield.TextInputLayout>
-                    
-                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Arsenic"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etArsenic" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
-                    
-                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Chromium-6"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etChromium6" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
-                    
-                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Glyphosate"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etGlyphosate" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
-                    
-                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:hint="Lead"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etLead" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout>
-                    
-                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Notes"><com.google.android.material.textfield.TextInputEditText android:id="@+id/etNotes" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textMultiLine" android:minLines="3"/></com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -285,35 +255,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
+                android:layout_marginTop="16dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnClear"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Clear"/>
+
+                <View
+                    android:layout_width="16dp"
+                    android:layout_height="0dp"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnGeneratePdf"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Generate Report"
-                    style="@style/Widget.Material3.Button"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnClear"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="16dp"
-                    android:text="Clear All"
-                    style="@style/Widget.Material3.Button.OutlinedButton"/>
+                    android:text="Generate PDF"/>
             </LinearLayout>
 
-           <TextView
+            <TextView
                 android:id="@+id/tvAttribution"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="\nDeveloped by Crotser Technologies"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="?attr/colorSecondary"
                 android:layout_gravity="center_horizontal"
-                android:text="       "
-                android:textColor="?attr/colorPrimary"
+                android:layout_marginTop="16dp"
                 android:clickable="true"
-                android:focusable="true"/>
-        </LinearLayout> 
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground"/>
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

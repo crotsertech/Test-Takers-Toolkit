@@ -1,8 +1,7 @@
 package com.crotsertech.testtakerstoolkit
 
 data class CompanyInfo(
-    val name: String = "",
-    val streetAddress: String = "",
+    val name: String = "",    val streetAddress: String = "",
     val city: String = "",
     val state: String = "",
     val zip: String = "",
@@ -15,7 +14,7 @@ data class CustomerInfo(
     val name: String = "",
     val streetAddress: String = "",
     val city: String = "",
-    val state: String,
+    val state: String = "", // FIX: Added default value
     val zip: String = "",
     val phone: String = "",
     val email: String = "",
@@ -26,7 +25,7 @@ data class CustomerInfo(
 data class TestResults(
     val dateTested: String = "",
     val sampleLocation: String = "",
-    val testerInitials: String = "",
+    // val testerInitials: String = "", // FIX: This is now correctly removed
     val hardness: String = "",
     val tds: String = "",
     val ph: String = "",

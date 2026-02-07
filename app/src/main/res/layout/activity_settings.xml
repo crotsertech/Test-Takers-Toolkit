@@ -16,7 +16,7 @@
             android:id="@+id/toolbar_settings"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="General Settings" />
+            app:title="Settings" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -31,6 +31,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <!-- Company Information Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,7 +63,6 @@
                     android:inputType="textCapWords" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Hint changed to "City, State" -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -123,6 +123,7 @@
                     android:inputType="textUri" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- General Settings Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -135,7 +136,7 @@
                 android:id="@+id/switchEpaLookup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enable IL EPA Lookup (Local Database)"
+                android:text="Enable IL EPA Lookup"
                 android:textAppearance="?attr/textAppearanceBodyLarge"
                 android:checked="false" />
 
@@ -143,10 +144,47 @@
                 android:id="@+id/switchDeclareBlanks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="All-Range Mode"
                 android:textAppearance="?attr/textAppearanceBodyLarge"
                 android:checked="true" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Tester Initials">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etTesterInitials"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapCharacters"
+                    android:maxLength="3" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Signature"
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
+
+            <ImageView
+                android:id="@+id/ivSignaturePreview"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/dotted_border"
+                android:scaleType="fitCenter"
+                android:contentDescription="Signature Preview" />
+
+            <Button
+                android:id="@+id/btnCaptureSignature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:text="Capture Signature" />
 
             <Button
                 android:id="@+id/btnSaveSettings"
