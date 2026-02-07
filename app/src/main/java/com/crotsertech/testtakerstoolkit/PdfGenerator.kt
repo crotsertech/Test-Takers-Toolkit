@@ -89,7 +89,7 @@ class PdfGenerator(private val context: Context) {
         if (customerInfo.email.isNotBlank()) document.add(Paragraph("Email: ${customerInfo.email}"))
         document.add(Paragraph("Water Source: ${customerInfo.waterSource.displayName}"))
         if (customerInfo.waterSource == WaterSource.MUNICIPAL && customerInfo.epaSystemNumber.isNotBlank()) {
-            document.add(Paragraph("IL EPA System Number: ${customerInfo.epaSystemNumber}"))
+            document.add(Paragraph("EPA System Number: ${customerInfo.epaSystemNumber}"))
         }
 
         // === TEST RESULTS ===
@@ -101,7 +101,7 @@ class PdfGenerator(private val context: Context) {
         document.add(Paragraph("Bolded results may indicate a potential aesthetic or health concern.").setItalic().setFontSize(10f))
         document.add(Paragraph("")) // Spacer
 
-        // --- Data structure for results, including units and bolding thresholds ---
+
         val resultsData = listOf(
             TestResultData("Hardness", testResults.hardness, "gpg") { v -> v > 10.5 },
             TestResultData("TDS", testResults.tds, "ppm") { v -> v > 500 },
@@ -152,7 +152,6 @@ class PdfGenerator(private val context: Context) {
                 table.addCell(createCell(data2.label))
                 table.addCell(createCell(displayValue2, isBold2))
             } else {
-                // If there's an odd number of items, fill the rest of the row with empty cells
                 table.addCell(createCell(""))
                 table.addCell(createCell(""))
             }
@@ -163,7 +162,7 @@ class PdfGenerator(private val context: Context) {
         // === NOTES ===
         if (testResults.notes.isNotBlank()) {
             document.add(AreaBreak()) // Add a page break
-            document.add(Paragraph("\nNotes and Recomendations:").setBold())
+            document.add(Paragraph("\nNotes and Recommendations:").setBold())
             document.add(Paragraph(testResults.notes))
         }
 

@@ -1,12 +1,10 @@
 package com.crotsertech.testtakerstoolkit
 
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
+import android.text.InputFilter
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-// import androidx.appcompat.app.AppCompatActivityimport
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
 
@@ -16,7 +14,8 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var etCompanyName: TextInputEditText
     private lateinit var etCompanyStreetAddress: TextInputEditText
     private lateinit var etCompanyCity: TextInputEditText
-    private lateinit var etCompanyState: AutoCompleteTextView
+// Disabled for now
+    //    private lateinit var etCompanyState: TextInputEditText
     private lateinit var etCompanyZip: TextInputEditText
     private lateinit var etCompanyPhone: TextInputEditText
     private lateinit var etCompanyEmail: TextInputEditText
@@ -31,7 +30,6 @@ class SettingsActivity : AppCompatActivity() {
 
         preferencesManager = PreferencesManager(this)
         initializeViews()
-        setupStateDropdown()
         loadSettings()
 
         btnSaveSettings.setOnClickListener {
@@ -43,7 +41,8 @@ class SettingsActivity : AppCompatActivity() {
         etCompanyName = findViewById(R.id.etCompanyName)
         etCompanyStreetAddress = findViewById(R.id.etCompanyStreetAddress)
         etCompanyCity = findViewById(R.id.etCompanyCity)
-        etCompanyState = findViewById(R.id.etCompanyState)
+    // Disabled for now
+        //    etCompanyState = findViewById(R.id.etCompanyState)
         etCompanyZip = findViewById(R.id.etCompanyZip)
         etCompanyPhone = findViewById(R.id.etCompanyPhone)
         etCompanyEmail = findViewById(R.id.etCompanyEmail)
@@ -51,12 +50,10 @@ class SettingsActivity : AppCompatActivity() {
         switchEpaLookup = findViewById(R.id.switchEpaLookup)
         switchDeclareBlanks = findViewById(R.id.switchDeclareBlanks)
         btnSaveSettings = findViewById(R.id.btnSaveSettings)
-    }
 
-    private fun setupStateDropdown() {
-        val states = resources.getStringArray(R.array.us_states)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, states)
-        etCompanyState.setAdapter(adapter)
+
+    // Disabled for now
+    //    etCompanyState.filters = etCompanyState.filters + InputFilter.AllCaps()
     }
 
     private fun loadSettings() {
@@ -64,9 +61,8 @@ class SettingsActivity : AppCompatActivity() {
         etCompanyName.setText(companyInfo.name)
         etCompanyStreetAddress.setText(companyInfo.streetAddress)
         etCompanyCity.setText(companyInfo.city)
-
-        etCompanyState.setText(companyInfo.state, false)
-
+    // Disabled for now
+        //    etCompanyState.setText(companyInfo.state)
         etCompanyZip.setText(companyInfo.zip)
         etCompanyPhone.setText(companyInfo.phone)
         etCompanyEmail.setText(companyInfo.email)
@@ -81,7 +77,8 @@ class SettingsActivity : AppCompatActivity() {
             name = etCompanyName.text.toString(),
             streetAddress = etCompanyStreetAddress.text.toString(),
             city = etCompanyCity.text.toString(),
-            state = etCompanyState.text.toString(),
+            //Disabled for now
+            // state = etCompanyState.text.toString(),
             zip = etCompanyZip.text.toString(),
             phone = etCompanyPhone.text.toString(),
             email = etCompanyEmail.text.toString(),
