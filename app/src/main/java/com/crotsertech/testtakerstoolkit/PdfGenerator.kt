@@ -37,16 +37,16 @@ class PdfGenerator(private val context: Context) {
             SimpleDateFormat("yyyyMMdd", Locale.US).format(Date())
         }.pdf"
 
-        val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        val file = File(downloadsDir, pdfName)
+        val documentsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+        documentsDir.mkdirs()
+        val file = File(documentsDir, pdfName)
         val outputStream = FileOutputStream(file)
 
         val writer = PdfWriter(outputStream)
         val pdfDocument = PdfDocument(writer)
         val document = Document(pdfDocument)
 
-        // --- Build Address Line Helper ---
-        fun buildAddressLine(city: String, state: String, zip: String): String {
+                fun buildAddressLine(city: String, state: String, zip: String): String {
             val cityState = listOf(city, state).filter { it.isNotBlank() }.joinToString(", ")
             return listOf(cityState, zip).filter { it.isNotBlank() }.joinToString(" ")
         }
@@ -55,13 +55,16 @@ class PdfGenerator(private val context: Context) {
         if (companyInfo.name.isNotBlank()) {
             document.add(Paragraph(companyInfo.name).setBold().setTextAlignment(TextAlignment.CENTER))
         }
-        val companyAddressLine = buildAddressLine(companyInfo.city, "", companyInfo.zip)
+
         if (companyInfo.streetAddress.isNotBlank()) {
             document.add(Paragraph(companyInfo.streetAddress).setTextAlignment(TextAlignment.CENTER))
         }
+
+        val companyAddressLine = buildAddressLine(companyInfo.city, companyInfo.state, companyInfo.zip)
         if (companyAddressLine.isNotBlank()) {
             document.add(Paragraph(companyAddressLine).setTextAlignment(TextAlignment.CENTER))
         }
+
         val contactInfo = listOf(
             if (companyInfo.phone.isNotBlank()) "Phone: ${companyInfo.phone}" else null,
             if (companyInfo.email.isNotBlank()) "Email: ${companyInfo.email}" else null
@@ -95,26 +98,26 @@ class PdfGenerator(private val context: Context) {
         if (testResults.sampleLocation.isNotBlank()) document.add(Paragraph("Sample Location: ${testResults.sampleLocation}"))
         if (testResults.testerInitials.isNotBlank()) document.add(Paragraph("Tester Initials: ${testResults.testerInitials}"))
 
-        // Add the explanation for bolded results
-        document.add(Paragraph("Bolded results may indicate a potential health concern.").setItalic().setFontSize(10f))
+        document.add(Paragraph("Bolded results may indicate a potential aesthetic or health concern.").setItalic().setFontSize(10f))
         document.add(Paragraph("")) // Spacer
 
+        // --- Data structure for results, including units and bolding thresholds ---
         val resultsData = listOf(
             TestResultData("Hardness", testResults.hardness, "gpg") { v -> v > 10.5 },
             TestResultData("TDS", testResults.tds, "ppm") { v -> v > 500 },
             TestResultData("pH", testResults.ph, "") { v -> v < 6.5 || v > 8.5 },
+            TestResultData("Chlorine", testResults.chlorine, "ppm") { v -> v > 4 },
             TestResultData("Iron", testResults.iron, "ppm") { v -> v > 0.3 },
             TestResultData("Ammonia", testResults.ammonia, "ppm") { v -> v > 0.5 },
             TestResultData("Nitrates", testResults.nitrates, "ppm") { v -> v > 10 },
-            TestResultData("Manganese", testResults.manganese, "pm") { v -> v > 0.05 },
+            TestResultData("Manganese", testResults.manganese, "ppm") { v -> v > 0.05 },
             TestResultData("Tannin", testResults.tannin, "ppm") { v -> v > 0.5 },
-            TestResultData("Arsenic", testResults.arsenic, "ppb") { v -> v > 1 },
+            TestResultData("Arsenic", testResults.arsenic, "ppb") { v -> v > 10 },
             TestResultData("Chromium-6", testResults.chromium6, "ppb") { v -> v > 0.02 },
             TestResultData("Glyphosate", testResults.glyphosate, "ppb") { v -> v > 700 },
             TestResultData("Lead", testResults.lead, "ppb") { v -> v > 15 }
         )
 
-        // FIX: Create a 4-column table to create a more compact 2-column user layout
         val table = Table(UnitValue.createPercentArray(floatArrayOf(1f, 1f, 1f, 1f))).useAllAvailableWidth()
         val lightGrayBorder = SolidBorder(DeviceGray(0.75f), 1f)
 
@@ -149,6 +152,7 @@ class PdfGenerator(private val context: Context) {
                 table.addCell(createCell(data2.label))
                 table.addCell(createCell(displayValue2, isBold2))
             } else {
+                // If there's an odd number of items, fill the rest of the row with empty cells
                 table.addCell(createCell(""))
                 table.addCell(createCell(""))
             }
@@ -159,7 +163,7 @@ class PdfGenerator(private val context: Context) {
         // === NOTES ===
         if (testResults.notes.isNotBlank()) {
             document.add(AreaBreak()) // Add a page break
-            document.add(Paragraph("\nNotes:").setBold())
+            document.add(Paragraph("\nNotes and Recomendations:").setBold())
             document.add(Paragraph(testResults.notes))
         }
 

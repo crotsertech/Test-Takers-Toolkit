@@ -7,7 +7,7 @@
         android:title="General Settings"
         app:showAsAction="never" />
 
-    <group android:id="@+id/group_feedback">
+    <!-- <group android:id="@+id/group_feedback">
         <item
             android:id="@+id/action_bug_report"
             android:title="File a Bug Report"
@@ -17,7 +17,7 @@
             android:id="@+id/action_feature_request"
             android:title="Request a Feature"
             app:showAsAction="never" />
-    </group>
+    </group> -->
 
     <item
         android:id="@+id/action_help"

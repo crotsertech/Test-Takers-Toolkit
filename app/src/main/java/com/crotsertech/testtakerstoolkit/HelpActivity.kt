@@ -1,10 +1,13 @@
 package com.crotsertech.testtakerstoolkit
 
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.widget.ImageView // <<< ADD THIS IMPORT
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
 
@@ -14,65 +17,61 @@ class HelpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_help)
 
-        // Setup the toolbar with a back button
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar_help)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        // This is the modern and recommended way to handle the toolbar's back arrow
         toolbar.setNavigationOnClickListener {
-            // This properly handles back navigation
             onBackPressedDispatcher.onBackPressed()
         }
 
-        // Call the functions to set up the page content
-        setVersionNumber()
-        setupClickListeners()
+        // Setup UI components
+        setupVersionNumber()
+        setupClickableLinks()
     }
 
-    /**
-     * Retrieves the app's version name from the package manager
-     * and displays it in the corresponding TextView.
-     */
-    private fun setVersionNumber() {
-        val versionTextView = findViewById<TextView>(R.id.tv_version_number)
+    private fun setupVersionNumber() {
+        val tvVersionNumber = findViewById<TextView>(R.id.tv_version_number)
         try {
-            // Get package info to access the versionName defined in build.gradle
-            val packageInfo = packageManager.getPackageInfo(packageName, 0)
-            val versionName = packageInfo.versionName
-            versionTextView.text = "Version $versionName"
-        } catch (e: Exception) {
-            // Safely handle cases where the version name can't be found
+            val pInfo: PackageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                packageManager.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(0))
+            } else {
+                @Suppress("DEPRECATION")
+                packageManager.getPackageInfo(packageName, 0)
+            }
+            val version = pInfo.versionName
+            tvVersionNumber.text = "Version $version"
+        } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
-            versionTextView.text = "Version not found"
+            tvVersionNumber.text = "Version unknown"
         }
     }
 
-    /**
-     * Sets up click handlers for interactive elements on the page.
-     */
-    private fun setupClickListeners() {
-        // GitHub link in the "Support" card
-        findViewById<TextView>(R.id.tvGitHubLink).setOnClickListener {
-            openUrlInBrowser("https://github.com/crotsertech/Test-Takers-Toolkit")
+    private fun setupClickableLinks() {
+        // Find all clickable views by their unique IDs
+        val githubLink = findViewById<TextView>(R.id.tvGitHubLink)
+        val coffeeLink = findViewById<TextView>(R.id.tvCoffeeLink)
+        // Correctly find the ImageView by its ID from the XML
+        val attributionLink = findViewById<ImageView>(R.id.ivAttribution)
+
+        // Set click listener for the GitHub link
+        githubLink.setOnClickListener {
+            openUrl("https://github.com/crotsertech/Test-Takers-Toolkit")
         }
 
-        // Attribution link at the very bottom
-        findViewById<TextView>(R.id.tvAttributionHelp).setOnClickListener {
-            openUrlInBrowser("https://github.com/crotsertech")
+        // Set click listener for the coffee link
+        coffeeLink.setOnClickListener {
+            openUrl("https://ko-fi.com/crotsertech")
+        }
+
+        // Set click listener for the attribution badge
+        attributionLink.setOnClickListener {
+            openUrl("https://github.com/crotsertech")
         }
     }
 
-    /**
-     * Opens the provided URL in the device's default web browser.
-     */
-    private fun openUrlInBrowser(url: String) {
-        try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            startActivity(intent)
-        } catch (e: Exception) {
-            Toast.makeText(this, "Unable to open browser", Toast.LENGTH_SHORT).show()
-            e.printStackTrace()
-        }
+    // Helper function to open a URL in the browser
+    private fun openUrl(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(intent)
     }
 }

@@ -88,7 +88,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="1. Set up your company information in Settings before creating reports.\n\n2. Fill in customer details and water source information.\n\n3. Enter test results for the parameters you measured.\n\n4. Add notes if needed.\n\n5. Click 'Generate PDF Report' to create a professional report."
+                            android:text="1. Set up your company information in Settings before creating reports.\n\n2. Fill in customer details and water source information.\n\n3. Enter test results for the parameters you measured.\n\n4. Add notes and/or recommendations if needed.\n\n5. Click 'Generate Report' to create a professional report."
                             android:lineSpacingExtra="4dp" />
 
                     </LinearLayout>
@@ -117,7 +117,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="• Municipal: Public water supply. The app will automatically assign the Illinois EPA water system number based on the ZIP code.\n\n• Private Well: Individual well serving a single property.\n\n• Community Well: Well serving multiple properties or a community."
+                            android:text="• Municipal: Public water supply. \n\n• Private Well: Individual well serving a single property.\n\n• Community Well: Well serving multiple properties or a community."
                             android:lineSpacingExtra="4dp" />
 
                     </LinearLayout>
@@ -175,7 +175,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Generated PDF reports are saved to your device's Downloads folder.\n\nThe report includes:\n• Your company information\n• Customer details\n• Test date and tester initials\n• All measured parameters\n• Notes (on a second page if entered)\n\nReports are formatted to fit on a single page for easy printing and sharing."
+                            android:text="Generated PDF reports are saved to your device's Documents folder.\n\nThe report includes:\n• Your company information\n• Customer details\n• Test date and tester initials\n• All measured parameters\n• Notes (on a second page if entered)\n\nReports are formatted for easy printing and sharing."
                             android:lineSpacingExtra="4dp" />
 
                     </LinearLayout>
@@ -204,7 +204,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="• Use the tester initials field to track who performed each test.\n\n• You only need to enter values for parameters you actually tested.\n\n• The Clear Form button will reset all fields - use it to start a new test.\n\n• Your company information is saved automatically and will appear on all reports."
+                            android:text="• Use the tester initials field to track who performed each test.\n\n• You only need to enter values for parameters you actually tested.\n\n• The Clear Form button will reset all fields - use it to start a new test.\n\n• Your company information is saved automagically and will appear on all reports.\n\n• Use All-Range Mode to list untested parameters."
                             android:lineSpacingExtra="4dp" />
 
                     </LinearLayout>
@@ -249,21 +249,57 @@
                             android:paddingBottom="8dp"
                             android:background="?attr/selectableItemBackground" />
 
+                            <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="\n\nIf you found this application helpful, please consider buying the developer a coffee to say thanks! "
+                            android:layout_marginBottom="8dp" />
+
+                        <TextView
+                            android:id="@+id/tvCoffeeLink"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Click here to buy a coffee!"
+                            android:textColor="?attr/colorPrimary"
+                            android:textStyle="bold"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp"
+                            android:background="?attr/selectableItemBackground" />
+
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- Attribution Footer -->
-                <TextView
-                    android:id="@+id/tvAttributionHelp"
+                <ImageView
+                    android:id="@+id/ivAttribution"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_gravity="center"
-                    android:text="Software written by Crotser Tech"
-                    android:textColor="?attr/colorPrimary"
-                    android:padding="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:adjustViewBounds="true"
                     android:clickable="true"
                     android:focusable="true"
-                    android:background="?attr/selectableItemBackground" />
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Crotsertech Badge"
+                    app:srcCompat="@drawable/crotsertech_badge_classic" />
+
+               <!-- <ImageView
+                    android:id="@+id/ivAttribution"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:adjustViewBounds="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Powered by Dr. Pepper easter egg"
+                    app:srcCompat="@drawable/pepperpower" /> -->
+
 
             </LinearLayout>
         </LinearLayout>

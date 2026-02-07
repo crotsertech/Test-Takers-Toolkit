@@ -158,12 +158,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val issuesUrl = "https://github.com/crotsertech/TestTakersToolkit/issues"
+        val issuesUrl = "https://github.com/crotsertech/Test-Takers-Toolkit/issues"
         return when (item.itemId) {
             R.id.action_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
                 true
             }
+            // Temporarily Disabled
+            /*
             R.id.action_bug_report -> {
                 openUrlInBrowser("$issuesUrl/new?template=bug_report.md")
                 true
@@ -171,11 +173,11 @@ class MainActivity : AppCompatActivity() {
             R.id.action_feature_request -> {
                 openUrlInBrowser("$issuesUrl/new?template=feature_request.md")
                 true
-            }
+            }*/
             R.id.action_help -> {
                 startActivity(Intent(this, HelpActivity::class.java))
                 true
-            }
+            } //
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -295,7 +297,7 @@ class MainActivity : AppCompatActivity() {
             )
 
             pdfGenerator.generatePdf(companyInfo, customerInfo, testResults)
-            Toast.makeText(this, "PDF saved to Downloads folder", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "PDF saved to Documents folder", Toast.LENGTH_LONG).show()
 
         } catch (e: Exception) {
             Toast.makeText(this, "Error generating PDF: ${e.message}", Toast.LENGTH_LONG).show()
@@ -305,10 +307,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun showClearConfirmation() {
         AlertDialog.Builder(this)
-            .setTitle("Clear Fields")
-            .setMessage("Are you sure you want to clear all fields?")
-            .setPositiveButton("Clear") { _, _ -> clearAllFields() }
-            .setNegativeButton("Cancel", null)
+            .setTitle("Danger Zone")
+            .setMessage("Are you sure you want to clear all fields?\nThis action CANNOT be undone.")
+            .setPositiveButton("YES, I'm sure") { _, _ -> clearAllFields() }
+            .setNegativeButton("NO, Take me back", null)
             .show()
     }
 
