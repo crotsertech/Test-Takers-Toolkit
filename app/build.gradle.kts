@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.storage.CacheResetOnProcessCanceled.enabled
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -13,8 +11,8 @@ android {
         applicationId = "com.crotsertech.testtakerstoolkit"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "260207"
+        versionCode = 3
+        versionName = "260211"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -49,7 +47,6 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation("com.itextpdf:itext7-core:8.0.2")
 
-    // Consolidated lifecycle dependencies to a single stable version
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
 

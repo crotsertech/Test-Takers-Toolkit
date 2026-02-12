@@ -66,7 +66,10 @@ class PreferencesManager(context: Context) {
         return prefs.getBoolean(KEY_DECLARE_BLANKS, true)
     }
 
-    // THIS IS THE MISSING FUNCTION
+    fun saveTesterInitials(initials: String) {
+        prefs.edit().putString(KEY_TESTER_INITIALS, initials).apply()
+    }
+
     fun getTesterInitials(): String {
         return prefs.getString(KEY_TESTER_INITIALS, "") ?: ""
     }

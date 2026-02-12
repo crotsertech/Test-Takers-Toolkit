@@ -31,7 +31,6 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Company Information Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -67,12 +66,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:hint="City, State">
+                android:hint="City">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCompanyCity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textCapWords" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:hint="State">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCompanyState"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapCharacters" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -123,7 +134,6 @@
                     android:inputType="textUri" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- General Settings Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

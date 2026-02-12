@@ -1,6 +1,5 @@
 package com.crotsertech.testtakerstoolkit
 
-import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -16,10 +15,11 @@ import java.io.FileOutputStream
 
 class SettingsActivity : AppCompatActivity(), SignatureDialogFragment.SignatureDialogListener {
 
-    private lateinit var prefs: SharedPreferences
+    private lateinit var preferencesManager: PreferencesManager
     private lateinit var etCompanyName: TextInputEditText
     private lateinit var etCompanyStreetAddress: TextInputEditText
     private lateinit var etCompanyCity: TextInputEditText
+    private lateinit var etCompanyState: TextInputEditText
     private lateinit var etCompanyZip: TextInputEditText
     private lateinit var etCompanyPhone: TextInputEditText
     private lateinit var etCompanyEmail: TextInputEditText
@@ -38,12 +38,12 @@ class SettingsActivity : AppCompatActivity(), SignatureDialogFragment.SignatureD
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
+        preferencesManager = PreferencesManager(this)
+
         val toolbar: MaterialToolbar = findViewById(R.id.toolbar_settings)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
-
-        prefs = getSharedPreferences("com.crotsertech.testtakerstoolkit_preferences", MODE_PRIVATE)
 
         initializeViews()
         loadSettings()
@@ -61,6 +61,7 @@ class SettingsActivity : AppCompatActivity(), SignatureDialogFragment.SignatureD
         etCompanyName = findViewById(R.id.etCompanyName)
         etCompanyStreetAddress = findViewById(R.id.etCompanyStreetAddress)
         etCompanyCity = findViewById(R.id.etCompanyCity)
+        etCompanyState = findViewById(R.id.etCompanyState)
         etCompanyZip = findViewById(R.id.etCompanyZip)
         etCompanyPhone = findViewById(R.id.etCompanyPhone)
         etCompanyEmail = findViewById(R.id.etCompanyEmail)
@@ -73,24 +74,17 @@ class SettingsActivity : AppCompatActivity(), SignatureDialogFragment.SignatureD
     }
 
     private fun loadSettings() {
-        etCompanyName.setText(prefs.getString("company_name", ""))
-        etCompanyStreetAddress.setText(prefs.getString("company_street_address", ""))
-
-        val city = prefs.getString("company_city", "")
-        val state = prefs.getString("company_state", "")
-        val cityState = if (city?.isNotEmpty() == true && state?.isNotEmpty() == true) {
-            "$city, $state"
-        } else {
-            city ?: ""
-        }
-        etCompanyCity.setText(cityState)
-
-        etCompanyZip.setText(prefs.getString("company_zip", ""))
-        etCompanyPhone.setText(prefs.getString("company_phone", ""))
-        etCompanyEmail.setText(prefs.getString("company_email", ""))
-        etCompanyWebsite.setText(prefs.getString("company_website", ""))
-        etTesterInitials.setText(prefs.getString("tester_initials", ""))
-        switchDeclareBlanks.isChecked = prefs.getBoolean("declare_blanks_not_tested", true)
+        val companyInfo = preferencesManager.getCompanyInfo()
+        etCompanyName.setText(companyInfo.name)
+        etCompanyStreetAddress.setText(companyInfo.streetAddress)
+        etCompanyCity.setText(companyInfo.city)
+        etCompanyState.setText(companyInfo.state)
+        etCompanyZip.setText(companyInfo.zip)
+        etCompanyPhone.setText(companyInfo.phone)
+        etCompanyEmail.setText(companyInfo.email)
+        etCompanyWebsite.setText(companyInfo.website)
+        etTesterInitials.setText(preferencesManager.getTesterInitials())
+        switchDeclareBlanks.isChecked = preferencesManager.isDeclareBlanksEnabled()
 
         if (signatureFile.exists()) {
             val bitmap = BitmapFactory.decodeFile(signatureFile.absolutePath)
@@ -99,25 +93,19 @@ class SettingsActivity : AppCompatActivity(), SignatureDialogFragment.SignatureD
     }
 
     private fun saveSettings() {
-        val editor = prefs.edit()
-
-        val cityStateInput = etCompanyCity.text.toString().trim()
-        val parts = cityStateInput.split(",").map { it.trim() }
-        val city = parts.getOrNull(0) ?: ""
-        val state = parts.getOrNull(1) ?: ""
-
-        editor.putString("company_name", etCompanyName.text.toString().trim())
-        editor.putString("company_street_address", etCompanyStreetAddress.text.toString().trim())
-        editor.putString("company_city", city)
-        editor.putString("company_state", state)
-        editor.putString("company_zip", etCompanyZip.text.toString().trim())
-        editor.putString("company_phone", etCompanyPhone.text.toString().trim())
-        editor.putString("company_email", etCompanyEmail.text.toString().trim())
-        editor.putString("company_website", etCompanyWebsite.text.toString().trim())
-        editor.putString("tester_initials", etTesterInitials.text.toString().trim())
-        editor.putBoolean("declare_blanks_not_tested", switchDeclareBlanks.isChecked)
-
-        editor.apply()
+        val companyInfo = CompanyInfo(
+            name = etCompanyName.text.toString().trim(),
+            streetAddress = etCompanyStreetAddress.text.toString().trim(),
+            city = etCompanyCity.text.toString().trim(),
+            state = etCompanyState.text.toString().trim(),
+            zip = etCompanyZip.text.toString().trim(),
+            phone = etCompanyPhone.text.toString().trim(),
+            email = etCompanyEmail.text.toString().trim(),
+            website = etCompanyWebsite.text.toString().trim()
+        )
+        preferencesManager.saveCompanyInfo(companyInfo)
+        preferencesManager.saveTesterInitials(etTesterInitials.text.toString().trim())
+        preferencesManager.saveDeclareBlanksEnabled(switchDeclareBlanks.isChecked)
 
         Snackbar.make(findViewById(android.R.id.content), "Settings saved successfully", Snackbar.LENGTH_SHORT).show()
     }
